@@ -28,7 +28,7 @@ steps:
   displayName: 'Use .NET Core SDK $(dotnetSdkVersion) For Project'
   inputs:
     packageType: sdk
-    version: '$(dotnetSdkVersion)'
+    version: '2.2.103'
 
 - script: dotnet --list-sdks
   displayName: 'Check dotnet sdks'
@@ -42,10 +42,10 @@ steps:
     vstsFeed: 'GUID'
 
 - task: DotNetCoreCLI@2
-  displayName: 'Build the project - $(buildConfiguration)'
+  displayName: 'Build the project - Debug'
   inputs:
     command: 'build'
-    arguments: '--no-restore --configuration $(buildConfiguration)'
+    arguments: '--no-restore --configuration Dedug'
     projects: '**/*.csproj'
 
 - task: DotNetCoreCLI@2
@@ -56,10 +56,10 @@ steps:
     arguments: 'install --global dotnet-reportgenerator-globaltool'
 
 - task: DotNetCoreCLI@2
-  displayName: 'Run unit tests - $(buildConfiguration)'
+  displayName: 'Run unit tests - Debug'
   inputs:
     command: 'test'
-    arguments: '--no-build --configuration $(buildConfiguration) /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=$(Build.SourcesDirectory)/TestResults/Coverage/'
+    arguments: '--no-build --configuration Debug /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=$(Build.SourcesDirectory)/TestResults/Coverage/'
     publishTestResults: true
     projects: '**/*.Tests.csproj'
 
