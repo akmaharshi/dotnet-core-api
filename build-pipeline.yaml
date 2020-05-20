@@ -10,5 +10,5 @@ steps:
   
 - script: |
     echo Add a multiline script
-    echo Add one more line |
+    echo Add one more line
   displayName: 'Run a multiline script'
