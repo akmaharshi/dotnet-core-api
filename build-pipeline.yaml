@@ -18,7 +18,7 @@ steps:
   displayName: 'Prepare SonarCloud Analysis'
   inputs:
     SonarCloud: 'sonarcloud'
-    organisation: 'myproject-key'
+    organization: 'myproject-key'
     scannerMode: 'MSBuild'
     projectKey: 'myproject-key'
     projectName: 'myproject-key'
