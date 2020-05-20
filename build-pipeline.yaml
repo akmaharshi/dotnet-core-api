@@ -8,7 +8,7 @@ steps:
 - task: DotNetCoreInstaller@0
   displayName: 'Use .NET Core SDK 2.2.103 For Sonar Cloud'
   inputs:
-    version: '2.2.103'
+    version: '3.1.202'
 
 - script: dotnet --list-sdks
   displayName: 'Check dotnet sdks'
@@ -25,10 +25,10 @@ steps:
      sonar.cs.opencover.reportsPaths=$(Build.SourcesDirectory)/TestResults/Coverage/coverage.opencover.xml
 
 - task: DotNetCoreInstaller@0
-  displayName: 'Use .NET Core SDK $(dotnetSdkVersion) For Project'
+  displayName: 'Use .NET Core SDK 3.1.202 For Project'
   inputs:
     packageType: sdk
-    version: '2.2.103'
+    version: '3.1.202'
 
 - script: dotnet --list-sdks
   displayName: 'Check dotnet sdks'
@@ -70,7 +70,7 @@ steps:
 - task: DotNetCoreInstaller@0
   displayName: 'Use .NET Core SDK 2.2.103 For Sonar Cloud'
   inputs:
-    version: '2.2.103'
+    version: '3.1.202'
 
 - script: dotnet --list-sdks
   displayName: 'Check dotnet sdks'
