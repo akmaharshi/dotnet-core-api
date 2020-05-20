@@ -22,5 +22,17 @@ steps:
     command: 'test'
     projects: '**/*Tests.csproj'
 
+- task: CopyFiles@2
+  inputs:
+    SourceFolder: '${System.DefaultWorkingDirectory}/akmaharshi.dotnet-core-api/bin'
+    Contents: '**'
+    TargetFolder: '${Build.ArtifactStagingDirectory}'
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: 'drop'
+    publishLocation: 'Container'
+
 - script: echo "All done"
   displayName: 'Success'
