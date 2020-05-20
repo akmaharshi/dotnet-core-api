@@ -12,6 +12,21 @@ steps:
     feedsToUse: 'select'
     vstsFeed: '0777c4a0-8321-4a7d-9751-e8f4b768fa44'
 
+#Add sonarcloud Prepare
+
+- task: SonarCloudPrepare@1
+  displayName: 'Prepare SonarCloud Analysis'
+  inputs:
+    SonarCloud: 'sonarcloud'
+    organisation: 'myproject-key'
+    scannerMode: 'MSBuild'
+    projectKey: 'myproject-key'
+    projectName: 'myproject-key'
+    projectVersion: '$(build.buildnumber)'
+    extraProperties:
+      sonar.cs.opencover.reportsPaths=$(build.sourcesdirectory)/TestResults/Coverage/coverage.opencover.xml
+      sonar.exclusions=**/wwwroot/lib/**
+
 - task: DotNetCoreCLI@2
   inputs:
     command: 'build'
@@ -33,6 +48,14 @@ steps:
     PathtoPublish: '$(build.artifactstagingdirectory)'
     ArtifactName: 'drop'
     publishLocation: 'Container'
+
+# SonarCloud Analyze
+- task: SonarCloudAnalyze@1
+  displayName: 'Run SonarCloud Analysis'
+
+# SonarCloud Publish
+- task: SonarCloudPublish@1
+  displayName: 'Publish SonarCloud quality gate results'
 
 - script: echo "All done"
   displayName: 'Success'
