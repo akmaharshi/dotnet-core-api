@@ -22,6 +22,5 @@ steps:
     command: 'test'
     projects: '**/*Tests.csproj'
 
-- script:
-  steps: echo "All done"
+- script: echo "All done"
   displayName: 'Success'
