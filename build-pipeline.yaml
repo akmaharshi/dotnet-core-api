@@ -1,91 +1,15 @@
 trigger:
 - master
-
+  
 pool:
   vmImage: 'ubuntu-latest'
   
-steps:    
-- task: DotNetCoreInstaller@0
-  displayName: 'Use .NET Core SDK 2.2.103 For Sonar Cloud'
-  inputs:
-    version: '3.1.202'
-
-- script: dotnet --list-sdks
-  displayName: 'Check dotnet sdks'
-
-- task: SonarCloudPrepare@1
-  displayName: 'Prepare SonarCloud analysis'
-  inputs:
-    SonarCloud: 'sonarcloud'
-    organization: 'myproject-key'
-    projectKey: 'myproject-key'
-    projectName: 'myproject-key'
-    projectVersion: '$(Build.BuildNumber)'
-    extraProperties: |
-     sonar.cs.opencover.reportsPaths=$(Build.SourcesDirectory)/TestResults/Coverage/coverage.opencover.xml
-
-- task: DotNetCoreInstaller@0
-  displayName: 'Use .NET Core SDK 3.1.202 For Project'
-  inputs:
-    packageType: sdk
-    version: '3.1.202'
-
-- script: dotnet --list-sdks
-  displayName: 'Check dotnet sdks'
-
-- task: DotNetCoreCLI@2
-  displayName: 'Restore Project Dependencies'
-  inputs:
-    command: 'restore'
-    projects: '**/*.csproj'
-    feedsToUse: 'select'
-    vstsFeed: 'GUID'
-
-- task: DotNetCoreCLI@2
-  displayName: 'Build the project - Debug'
-  inputs:
-    command: 'build'
-    arguments: '--no-restore --configuration Dedug'
-    projects: '**/*.csproj'
-
-- task: DotNetCoreCLI@2
-  displayName: 'Install ReportGenerator'
-  inputs:
-    command: custom
-    custom: tool
-    arguments: 'install --global dotnet-reportgenerator-globaltool'
-
-- task: DotNetCoreCLI@2
-  displayName: 'Run unit tests - Debug'
-  inputs:
-    command: 'test'
-    arguments: '--no-build --configuration Debug /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=$(Build.SourcesDirectory)/TestResults/Coverage/'
-    publishTestResults: true
-    projects: '**/*.Tests.csproj'
-
+steps:
+- script: echo Hello,World
+  displayName: 'Task One'
+  
 - script: |
-    reportgenerator -reports:$(Build.SourcesDirectory)/**/coverage.cobertura.xml -targetdir:$(Build.SourcesDirectory)/CodeCoverage -reporttypes:HtmlInline_AzurePipelines
-  displayName: 'Create code coverage report'
-
-- task: DotNetCoreInstaller@0
-  displayName: 'Use .NET Core SDK 2.2.103 For Sonar Cloud'
-  inputs:
-    version: '3.1.202'
-
-- script: dotnet --list-sdks
-  displayName: 'Check dotnet sdks'
-
-- task: SonarCloudAnalyze@1
-  displayName: 'Run SonarCloud code analysis'
-
-- task: SonarCloudPublish@1
-  displayName: 'Publish SonarCloud quality gate results'
-
-- task: PublishCodeCoverageResults@1
-  displayName: 'Publish code coverage report'
-  inputs:
-    codeCoverageTool: 'cobertura'
-    summaryFileLocation: '$(Build.SourcesDirectory)/**/coverage.cobertura.xml'
+    echo Welcome to Devops
+	echo multiline
+  displayName: 'Multiline Task'
     
-- script: echo "All done"
-  displayName: 'Success'
