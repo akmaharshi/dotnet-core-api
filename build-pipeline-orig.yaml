@@ -18,7 +18,7 @@ steps:
   inputs:
     SonarCloud: 'sonarcloud'
     organization: 'myproject-key'
-    projectKey: 'myproject-key'
+    projectKey: 'myproject'
     projectName: 'myproject-key'
     projectVersion: '$(Build.BuildNumber)'
     extraProperties: |
