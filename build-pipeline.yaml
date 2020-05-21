@@ -10,6 +10,5 @@ steps:
   
 - script: |
     echo Welcome to Devops
-	echo multiline
+	  echo multiline
   displayName: 'Multiline Task'
-    
