@@ -16,9 +16,9 @@ steps:
 - task: SonarCloudPrepare@1
   displayName: 'Prepare SonarCloud analysis'
   inputs:
-    SonarCloud: 'sonarcloud'
+    SonarCloud: 'sonar'
     organization: 'myproject-key'
-    projectKey: 'myproject'
+    projectKey: 'myproject-key'
     projectName: 'myproject-key'
     projectVersion: '$(Build.BuildNumber)'
     extraProperties: |
