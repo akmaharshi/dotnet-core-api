@@ -5,12 +5,16 @@ pool:
   vmImage: 'windows-latest'
   
 steps:
+
 - task: DotNetCoreCLI@2
   inputs:
-    command: 'restore'
+    command: 'build'
     projects: '**/*.csproj'
-    feedsToUse: 'select'
-    vstsFeed: '0777c4a0-8321-4a7d-9751-e8f4b768fa44'
+
+- task: DotNetCoreCLI@2
+  inputs:
+    command: 'test'
+    projects: '**/*Tests.csproj'
 
 #Add sonarcloud Prepare
 
@@ -26,16 +30,6 @@ steps:
     extraProperties:
       sonar.cs.opencover.reportsPaths=$(build.sourcesdirectory)/TestResults/Coverage/coverage.opencover.xml
       sonar.exclusions=**/wwwroot/lib/**
-
-- task: DotNetCoreCLI@2
-  inputs:
-    command: 'build'
-    projects: '**/*.csproj'
-
-- task: DotNetCoreCLI@2
-  inputs:
-    command: 'test'
-    projects: '**/*Tests.csproj'
 
 - task: CopyFiles@2
   inputs:
