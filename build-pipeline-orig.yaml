@@ -33,13 +33,21 @@ steps:
 - script: dotnet --list-sdks
   displayName: 'Check dotnet sdks'
 
+#- task: DotNetCoreCLI@2
+#  displayName: 'Restore Project Dependencies'
+#  inputs:
+#    command: 'restore'
+#    projects: '**/*.csproj'
+#    feedsToUse: 'select'
+#    vstsFeed: 'GUID'
+
 - task: DotNetCoreCLI@2
   displayName: 'Restore Project Dependencies'
   inputs:
     command: 'restore'
     projects: '**/*.csproj'
     feedsToUse: 'select'
-    vstsFeed: 'GUID'
+    vstsFeed: '140cfa43-4398-435f-8b68-9c169f45e0ec''
 
 - task: DotNetCoreCLI@2
   displayName: 'Build the project - Debug'
