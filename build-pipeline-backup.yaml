@@ -8,6 +8,13 @@ steps:
 
 - task: DotNetCoreCLI@2
   inputs:
+    command: 'restore'
+    projects: '**/*.csproj'
+    feedsToUse: 'select'
+    vstsFeed: '140cfa43-4398-435f-8b68-9c169f45e0ec'
+
+- task: DotNetCoreCLI@2
+  inputs:
     command: 'build'
     projects: '**/*.csproj'
 
