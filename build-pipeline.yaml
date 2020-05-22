@@ -12,19 +12,6 @@ steps:
     feedsToUse: 'select'
     vstsFeed: '140cfa43-4398-435f-8b68-9c169f45e0ec'
 
-- task: SonarCloudPrepare@1
-  displayName: 'Prepare Sonarcloud Analysis'
-  inputs:
-    SonarCloud: 'sonarcloud'
-    organization: 'myproject-key'
-    scannerMode: 'MSBuild'
-    projectKey: 'mykey'
-    projectName: 'myproject-key'
-    projectVersion: '$(build.buildnumber)'
-    extraProperties:
-      sonar.cs.opencover.reportsPaths=$(build.sourcesdirectory)/TestResults/Coverage/coverage.opencover.xml
-      sonar.exclusions=**/wwwroot/lib/**
-
 - task: DotNetCoreCLI@2
   inputs:
     command: 'build'
@@ -48,10 +35,21 @@ steps:
     ArtifactName: 'drop'
     publishLocation: 'Container'
 
-- task: SonarCloudAnalyze@1
-  displayName: 'Run SonarCloud Analysis'
 
-- task: SonarCloudPublish@1
-  displayName: 'Publish SonarCloud Analysis'
+- task: DotNetCoreCLI@2
   inputs:
-    pollingTimeoutSec: '300'
+    command: 'pack'
+    packagesToPack: '**/*.csproj'
+    nobuild: true
+    versioningScheme: 'byPrereleaseNumber'
+    majorVersion: '1'
+    minorVersion: '0'
+    patchVersion: '0'
+
+- task: NuGetCommand@2
+  inputs:
+    command: 'push'
+    packagesToPush: '$(Build.ArtifactStagingDirectory)/**/*.nupkg;!$(Build.ArtifactStagingDirectory)/**/*.symbols.nupkg'
+    nuGetFeedType: 'internal'
+    publishVstsFeed: '0dfba799-1a59-43ab-92af-0dc2430cfdb3/ee1187b5-c037-42e4-95fd-6409ed8d0a0d'
+  condition: succeeded()
